@@ -29,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.miniprojet.viewModel.PostViewModel
@@ -47,6 +48,7 @@ fun PostListScreen(
     LaunchedEffect(Unit) { vm.loadPosts() }
 
     Scaffold(
+        containerColor = Color.Transparent, // Pour voir le fond défini dans MainActivity
         snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = onCreatePost) {
@@ -56,17 +58,17 @@ fun PostListScreen(
     ) { padding ->
         when (val s = state) {
             is UiState.Loading -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
                 }
             }
             is UiState.Error -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                     Text("Erreur : ${s.message}", color = MaterialTheme.colorScheme.error)
                 }
             }
             is UiState.Empty -> {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
                     Text("Aucun post disponible")
                 }
             }
